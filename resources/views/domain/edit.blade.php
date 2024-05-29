@@ -13,7 +13,7 @@
     <div class="container">
         <div class=" form-row">
             <div class="col-lg-12">
-                <h3>Edit Data Alumni</h3>
+                <h3>Edit Data Biding</h3>
             </div>
         </div>
         <br>
