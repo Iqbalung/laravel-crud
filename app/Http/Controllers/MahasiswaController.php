@@ -15,7 +15,7 @@ class MahasiswaController extends Controller
     public function index()
     {
         $mahasiswas = Mahasiswa::orderBy('id','asc')->paginate(5);
-        return view('mahasiswa.index',compact('mahasiswas'))
+        return view('domain.index',compact('mahasiswas'))
                 ->with('i',(request()->input('page',1) -1)*5);
     }
 
@@ -26,7 +26,7 @@ class MahasiswaController extends Controller
      */
     public function create()
     {
-        return view('mahasiswa.create');
+        return view('domain.create');
     }
 
     /**
@@ -39,17 +39,21 @@ class MahasiswaController extends Controller
     {
 
         $request->validate([
-            'namaMahasiswa'=>'required',
-            'nimMahasiswa' => 'required',
-            'angkatanMahasiswa'=>'required',
-            'judulskripsiMahasiswa' => 'required',
-            'pembimbing1'=>'required',
-            'pembimbing2' => 'required',
+            'namadomain'=>'required',
+            'da' => 'required',
+            'pa'=>'required',
+            'qt' => 'required',
+            'os'=>'required',
+            'ss' => 'required',
             //'gambarMahasiswa' => 'required|image|mimes:jpg,png,jpeg'
         ]);
- 
-        Mahasiswa::create($request->all());
-        return redirect()->route('mahasiswa.index')
+
+        $arr = $request->all();
+        $arr['biddate'] = date('Y-m-d', strtotime($request->biddate));
+
+        
+        Mahasiswa::create($arr);
+        return redirect()->route('domain.index')
                          ->with('success','Data berhasil ditambahkan');
     }
 
@@ -62,7 +66,7 @@ class MahasiswaController extends Controller
     public function show($id)
     {
         $mahasiswa = Mahasiswa::find($id);
-        return view('mahasiswa.detail', compact('mahasiswa'));
+        return view('domain.detail', compact('mahasiswa'));
     }
 
     /**
@@ -74,7 +78,7 @@ class MahasiswaController extends Controller
     public function edit($id)
     {
         $mahasiswa = Mahasiswa::find($id);
-        return view('mahasiswa.edit', compact('mahasiswa'));
+        return view('domain.edit', compact('mahasiswa'));
     }
 
     /**
@@ -87,23 +91,25 @@ class MahasiswaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'namaMahasiswa'=>'required',
-            'nimMahasiswa' => 'required',
-            'angkatanMahasiswa'=>'required',
-            'judulskripsiMahasiswa' => 'required',
-            'pembimbing1'=>'required',
-            'pembimbing2' => 'required',
+            'namadomain'=>'required',
+            'da' => 'required',
+            'pa'=>'required',
+            'qt' => 'required',
+            'os'=>'required',
+            'ss' => 'required',
             //'gambarMahasiswa' => 'required|image|mimes:jpg,png,jpeg'
         ]);
         $mahasiswa = Mahasiswa::find($id);
-        $mahasiswa->namaMahasiswa = $request->get('namaMahasiswa');
-        $mahasiswa->nimMahasiswa = $request->get('nimMahasiswa');
-        $mahasiswa->angkatanMahasiswa = $request->get('angkatanMahasiswa');
-        $mahasiswa->judulskripsiMahasiswa = $request->get('judulskripsiMahasiswa');
-        $mahasiswa->pembimbing1 = $request->get('pembimbing1');
-        $mahasiswa->pembimbing2 = $request->get('pembimbing2');
+        $mahasiswa->namadomain = $request->get('namadomain');
+        $mahasiswa->da = $request->get('da');
+        $mahasiswa->pa = $request->get('pa');
+        $mahasiswa->qt = $request->get('qt');
+        $mahasiswa->os = $request->get('os');
+        $mahasiswa->ss = $request->get('ss');
+        $mahasiswa->biddate = date('Y-m-d', strtotime($request->get('biddate')));
+
         $mahasiswa->save();
-        return redirect()->route('mahasiswa.index')
+        return redirect()->route('domain.index')
                          ->with('success', 'Data berhasil diupdate');
     }
 
@@ -117,7 +123,7 @@ class MahasiswaController extends Controller
     {
         $mahasiswa = Mahasiswa::find($id);
         $mahasiswa->delete();
-        return redirect()->route('mahasiswa.index')
+        return redirect()->route('domain.index')
                          ->with('success', 'Data Alumni berhasil dihapus');
     }
 }

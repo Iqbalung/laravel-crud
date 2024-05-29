@@ -48,7 +48,17 @@
                  <td>{{$mahasiswa->qt}}</td>
                 <td align="center">{{$mahasiswa->os}}</td>
                 <td align="center">{{$mahasiswa->ss}}</td>
-                <td>2h 3j 40m</td>
+                <td>
+
+               
+
+
+
+<?php 
+ $now = new DateTime();
+ $date = new DateTime($mahasiswa->biddate);
+echo $now->diff($date)->format("%m month, %d days, %h hours and %i minutes") ?>;
+                </td>
                 <td>
                     <form action="{{ route('domain.destroy',$mahasiswa->id) }}" method="post">
                     <a class="btn btn-sm btn-success" href="{{ route('domain.show', $mahasiswa->id)}}">Show</a>

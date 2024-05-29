@@ -7,12 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Data Alumni</title>
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-  <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+       
 <style type="text/css">
         // solution 1:
         .datepicker {
@@ -91,7 +86,7 @@
             <div class="form-group row">
                 <label for="pembimbing2" class="col-sm-2 col-form-label">Tanggal Bidding</label>
                 <div class="col-sm-10">
-                    <input data-date-format="dd/mm/yyyy" id="datepicker">
+                    <input data-date-format="dd/mm/yyyy" id="datepicker" name="biddate">
 
                 </div>
             </div>
@@ -102,7 +97,6 @@
                 <p class="text-danger">{{ $errors->first('gambarMahasiswa') }}</p>
                 </div>
             </div>-->
-
              <hr>
                 <div class="form-group">
                     <a href="{{route('domain.index')}}" class="btn btn-success">Kembali</a>
@@ -112,11 +106,6 @@
 
     </div>
     </body>
-    <script>
-  $( function() {
-    $( "#datepicker" ).datepicker();
-  } );
-</script>
 </html>
     
 @endsection
