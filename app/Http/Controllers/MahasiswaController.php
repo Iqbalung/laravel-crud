@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Mahasiswa;
+use App\Models\Mahasiswa;
 
 class MahasiswaController extends Controller
 {
@@ -14,9 +14,9 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        $mahasiswas = Mahasiswa::orderBy('id','asc')->paginate(5);
-        return view('domain.index',compact('mahasiswas'))
-                ->with('i',(request()->input('page',1) -1)*5);
+        $mahasiswas = Mahasiswa::orderBy('id', 'asc')->paginate(5);
+        return view('domain.index', compact('mahasiswas'))
+                ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -39,11 +39,11 @@ class MahasiswaController extends Controller
     {
 
         $request->validate([
-            'namadomain'=>'required',
+            'namadomain' => 'required',
             'da' => 'required',
-            'pa'=>'required',
+            'pa' => 'required',
             'qt' => 'required',
-            'os'=>'required',
+            'os' => 'required',
             'ss' => 'required',
             //'gambarMahasiswa' => 'required|image|mimes:jpg,png,jpeg'
         ]);
@@ -51,10 +51,11 @@ class MahasiswaController extends Controller
         $arr = $request->all();
         $arr['biddate'] = date('Y-m-d', strtotime($request->biddate));
 
-        
+
         Mahasiswa::create($arr);
+
         return redirect()->route('domain.index')
-                         ->with('success','Data berhasil ditambahkan');
+                         ->with('success', 'Data berhasil ditambahkan');
     }
 
     /**
@@ -91,11 +92,11 @@ class MahasiswaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'namadomain'=>'required',
+            'namadomain' => 'required',
             'da' => 'required',
-            'pa'=>'required',
+            'pa' => 'required',
             'qt' => 'required',
-            'os'=>'required',
+            'os' => 'required',
             'ss' => 'required',
             //'gambarMahasiswa' => 'required|image|mimes:jpg,png,jpeg'
         ]);
