@@ -1,5 +1,22 @@
-* text=auto
-*.css linguist-vendored
-*.scss linguist-vendored
-*.js linguist-vendored
-CHANGELOG.md export-ignore
+# Laravel specific
+.env
+public/storage
+public/hot
+storage/*.key
+vendor/
+node_modules/
+
+# IDE/Editor specific
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.komodoproject
+.komodotools/
+.phpstorm.meta.php
+.phpstorm.meta.php.sandbox
+.phpstorm.meta.keys
+
+# OS generated files
+.DS_Store
+Thumbs.db

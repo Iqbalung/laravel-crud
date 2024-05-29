@@ -1,111 +1,75 @@
 @extends('layouts.app')
+
 @section('content')
-
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Data Alumni</title>
-       
-<style type="text/css">
-        // solution 1:
-        .datepicker {
-            font-size: 0.875em;
-        }
-        /* solution 2: the original datepicker use 20px so replace with the following:*/
-        
-        .datepicker td, .datepicker th {
-            width: 1.5em;
-            height: 1.5em;
-        }
-        
-    </style>
-
-    </head>
-    <body>
     <div class="container">
-        <div class=" form-row">
+        <div class="form-row mb-3">
             <div class="col-lg-12">
-                <h3>Tambah Domain</h3>
+                <h3>Create New Domain</h3>
             </div>
         </div>
-        <br>
 
-        @if ($errors->all())
-            <?php dd($errors->all());?>
+        @if ($errors->any())
             <div class="alert alert-danger">
-                <strong>Whoops! </strong> Ada permasalahan inputanmu.<br>
                 <ul>
-                    @foreach ($errors as $error)
-                        <li>{{$error}}</li>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
                     @endforeach
                 </ul>
             </div>
         @endif
-        
-        <form action="{{route('domain.store')}}" method="post" enctype="multipart/form-data">
+
+        <form action="{{ route('domain.store') }}" method="POST">
             @csrf
-            <div class="form-group row">
-                <label for="namaMahasiswa" class="col-sm-2 col-form-label">Nama Domain</label>
-                <div class="col-sm-10">
-                    <input type="text" name="namadomain" class="form-control" id="namaMahasiswa" placeholder="">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="nimMahasiswa" class="col-sm-2 col-form-label">DA</label>
-                <div class="col-sm-10">
-                    <input type="text" name="da" class="form-control" id="nimMahasiswa" placeholder="NIM Mahasiswa">
-                </div>
-            </div>
-           
-            <div class="form-group row">
-                <label for="judulskripsiMahasiswa" class="col-sm-2 col-form-label">PA</label>
-                    <div class="col-sm-10">
-                    <input type="text" name="pa" class="form-control" id="nimMahasiswa" placeholder="">
-                    </div>
-            </div>
-            <div class="form-group row">
-                <label for="pembimbing1" class="col-sm-2 col-form-label">QA</label>
-                <div class="col-sm-10">
-                    <input type="text" name="qt" class="form-control" id="pembimbing1" placeholder="">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="pembimbing2" class="col-sm-2 col-form-label">OS</label>
-                <div class="col-sm-10">
-                    <input type="text" name="os" class="form-control" id="pembimbing2" placeholder="">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="pembimbing2" class="col-sm-2 col-form-label">SS</label>
-                <div class="col-sm-10">
-                    <input type="text" name="ss" class="form-control" id="pembimbing2" placeholder="">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="pembimbing2" class="col-sm-2 col-form-label">Tanggal Bidding</label>
-                <div class="col-sm-10">
-                    <input data-date-format="dd/mm/yyyy" id="datepicker" name="biddate">
 
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="name">Domain Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}"
+                        required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="da">Domain Authority (DA)</label>
+                    <input type="number" class="form-control" id="da" name="da" value="{{ old('da') }}"
+                        required>
                 </div>
             </div>
-            <!--<div class="form-group row">
-                <label for="gambarMahasiswa" class="col-sm-2 col-form-label">Pilih gambar</label>
-                <div class="col-sm-10">
-                    <input type="file" name="gambarMahasiswa">
-                <p class="text-danger">{{ $errors->first('gambarMahasiswa') }}</p>
+
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="pa">Page Authority (PA)</label>
+                    <input type="number" class="form-control" id="pa" name="pa" value="{{ old('pa') }}"
+                        required>
                 </div>
-            </div>-->
-             <hr>
-                <div class="form-group">
-                    <a href="{{route('domain.index')}}" class="btn btn-success">Kembali</a>
-                    <button type="submit" class="btn btn-primary">Tambah</button>
+                <div class="col-md-6 mb-3">
+                    <label for="qa">Quality Assurance (QA)</label>
+                    <input type="number" class="form-control" id="qa" name="qa" value="{{ old('qa') }}"
+                        required>
                 </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="os">Off-Site SEO (OS)</label>
+                    <input type="number" class="form-control" id="os" name="os" value="{{ old('os') }}"
+                        required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="ss">Spam Score (SS)</label>
+                    <input type="number" class="form-control" id="ss" name="ss" value="{{ old('ss') }}"
+                        required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="bidding_time">Bidding End Time</label>
+                    <input type="datetime-local" class="form-control" id="bidding_time" name="bidding_time"
+                        value="{{ old('bidding_time') }}" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create Domain</button>
+            <a href="{{ route('domain.index') }}" class="btn btn-secondary">Cancel</a>
         </form>
-
     </div>
-    </body>
-</html>
-    
 @endsection

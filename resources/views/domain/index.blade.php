@@ -1,81 +1,99 @@
 @extends('layouts.app')
+
 @section('content')
- 
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Data Alumni</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    </head>
-    <body>
     <div class="container">
-        <div class="row">
+        <div class="row mb-3">
             <div class="col-md-10">
-                <h3> Domain Bidding</h3>
+                <h3>Domain Bidding</h3>
             </div>
-            <div class="col-sm-2">
-                <a class="btn btn-success" href="{{ route('domain.create')}}"> Tambah Domain </a>
+            <div class="col-md-2 text-end">
+                <a class="btn btn-success" href="{{ route('domain.create') }}">Tambah Domain</a>
             </div>
-        </div> 
-        <br>
-
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p>{{$message}}</p>        
         </div>
-    @endif
 
-    <table class="table table-striped">
-      <thead>
-        <tr>
-            <th width="400px"><b>Namecheap.</b></th>
-            <th width="100px">DA</th>
-            <th width="100px">PA</th>
-            <th width="100px">QT</th>
-            <th width="100px">OS</th>
-            <th width="100px">SS</th>
-            <th width="100px">Tanggal</th>
-            <th width="210px">Action</th>
-        </tr>
-      </thead>
-        @foreach ($mahasiswas as $mahasiswa) 
-            <tr>
-                <td>{{$mahasiswa->namadomain}}</td>
-                <td>{{$mahasiswa->da}}</td>
-                <td>{{$mahasiswa->pa}}</td>
-                 <td>{{$mahasiswa->qt}}</td>
-                <td align="center">{{$mahasiswa->os}}</td>
-                <td align="center">{{$mahasiswa->ss}}</td>
-                <td>
+        @if ($message = Session::get('success'))
+            <div class="alert alert-success">
+                <p>{{ $message }}</p>
+            </div>
+        @endif
 
-               
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Namecheap</th>
+                        <th>DA</th>
+                        <th>PA</th>
+                        <th>QA</th>
+                        <th>OS</th>
+                        <th>SS</th>
+                        <th>Bidding (End Time)</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($domains as $domain)
+                        <tr>
+                            <td>{{ $domain->name }}</td>
+                            <td>{{ $domain->da }}</td>
+                            <td>{{ $domain->pa }}</td>
+                            <td>{{ $domain->qa }}</td>
+                            <td align="center">{{ $domain->os }}</td>
+                            <td align="center">{{ $domain->ss }}</td>
+                            <td>
+                                <span class="domain-bidding-time-{{ $domain->id }}"></span>
+                            </td>
+                            <td>
+                                <form action="{{ route('domain.destroy', $domain->id) }}" method="POST"
+                                    onsubmit="return confirm('Are you sure you want to delete this domain?');">
+                                    <a class="btn btn-sm btn-success"
+                                        href="{{ route('domain.show', $domain->id) }}">Show</a>
+                                    <a class="btn btn-sm btn-warning"
+                                        href="{{ route('domain.edit', $domain->id) }}">Edit</a>
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
-
-
-<?php 
- $now = new DateTime();
- $date = new DateTime($mahasiswa->biddate);
-echo $now->diff($date)->format("%m month, %d days, %h hours and %i minutes") ?>;
-                </td>
-                <td>
-                    <form action="{{ route('domain.destroy',$mahasiswa->id) }}" method="post">
-                    <a class="btn btn-sm btn-success" href="{{ route('domain.show', $mahasiswa->id)}}">Show</a>
-                    <a class="btn btn-sm btn-warning" href="{{ route('domain.edit', $mahasiswa->id)}}">Edit</a>
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                    </form>    
-                </td>
-            </tr>
-        @endforeach
-    </table>
-
-    {!! $mahasiswas->links() !!}
+        {!! $domains->links() !!}
     </div>
-    </body>
-
-</html>
-
 @endsection
+
+
+@push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.34/moment-timezone-with-data.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var domains = @json($domains->all());
+            if (domains.length > 0) {
+                domains.forEach(function(domain) {
+                    $('.domain-bidding-time-' + domain.id).text(diffBiddingTime(domain.bidding_time));
+
+                    let interval = setInterval(function() {
+                        $('.domain-bidding-time-' + domain.id).text(diffBiddingTime(domain
+                            .bidding_time));
+                    }, 1000);
+                });
+            }
+
+            function diffBiddingTime(time) {
+                const currentTime = moment().tz('Asia/Jakarta');
+                const biddingTime = moment(time).tz('Asia/Jakarta');
+                const duration = moment.duration(biddingTime.diff(currentTime));
+
+                if (duration.asSeconds() < 0) {
+                    return 'Bidding has ended';
+                }
+
+                return `${duration.years()} years, ${duration.months()} months, ${duration.days()} days, ${duration.hours()} hours, ${duration.minutes()} minutes, ${duration.seconds()} seconds`;
+            }
+        });
+    </script>
+@endpush

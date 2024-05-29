@@ -11,15 +11,13 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('domain.index');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-route::resource('domain', 'MahasiswaController');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::resource('domain', 'DomainController')->middleware('auth');
