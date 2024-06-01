@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Mahasiswa;
+use App\Models\Source;
 
-class MahasiswaController extends Controller
+class SourceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        $mahasiswas = Mahasiswa::orderBy('id', 'asc')->paginate(5);
-        return view('domain.index', compact('mahasiswas'))
+        $mahasiswas = Source::orderBy('id', 'asc')->paginate(5);
+        return view('source.index', compact('mahasiswas'))
                 ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -26,7 +26,7 @@ class MahasiswaController extends Controller
      */
     public function create()
     {
-        return view('domain.create');
+        return view('source.create');
     }
 
     /**
@@ -39,22 +39,15 @@ class MahasiswaController extends Controller
     {
 
         $request->validate([
-            'namadomain' => 'required',
-            'da' => 'required',
-            'pa' => 'required',
-            'qt' => 'required',
-            'os' => 'required',
-            'ss' => 'required',
+            'sumber' => 'required',
             //'gambarMahasiswa' => 'required|image|mimes:jpg,png,jpeg'
         ]);
 
-        $arr = $request->all();
-        $arr['biddate'] = date('Y-m-d', strtotime($request->biddate));
+       
 
+        Source::create($request->all());
 
-        Mahasiswa::create($arr);
-
-        return redirect()->route('domain.index')
+        return redirect()->route('source.index')
                          ->with('success', 'Data berhasil ditambahkan');
     }
 
@@ -66,8 +59,8 @@ class MahasiswaController extends Controller
      */
     public function show($id)
     {
-        $mahasiswa = Mahasiswa::find($id);
-        return view('domain.detail', compact('mahasiswa'));
+        $mahasiswa = Source::find($id);
+        return view('source.detail', compact('mahasiswa'));
     }
 
     /**
@@ -78,8 +71,8 @@ class MahasiswaController extends Controller
      */
     public function edit($id)
     {
-        $mahasiswa = Mahasiswa::find($id);
-        return view('domain.edit', compact('mahasiswa'));
+        $mahasiswa = Source::find($id);
+        return view('source.edit', compact('mahasiswa'));
     }
 
     /**
@@ -100,7 +93,7 @@ class MahasiswaController extends Controller
             'ss' => 'required',
             //'gambarMahasiswa' => 'required|image|mimes:jpg,png,jpeg'
         ]);
-        $mahasiswa = Mahasiswa::find($id);
+        $mahasiswa = Source::find($id);
         $mahasiswa->namadomain = $request->get('namadomain');
         $mahasiswa->da = $request->get('da');
         $mahasiswa->pa = $request->get('pa');
@@ -110,7 +103,7 @@ class MahasiswaController extends Controller
         $mahasiswa->biddate = date('Y-m-d', strtotime($request->get('biddate')));
 
         $mahasiswa->save();
-        return redirect()->route('domain.index')
+        return redirect()->route('source.index')
                          ->with('success', 'Data berhasil diupdate');
     }
 
@@ -122,9 +115,9 @@ class MahasiswaController extends Controller
      */
     public function destroy($id)
     {
-        $mahasiswa = Mahasiswa::find($id);
+        $mahasiswa = Source::find($id);
         $mahasiswa->delete();
-        return redirect()->route('domain.index')
+        return redirect()->route('source.index')
                          ->with('success', 'Data Alumni berhasil dihapus');
     }
 }

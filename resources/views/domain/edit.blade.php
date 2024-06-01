@@ -42,7 +42,7 @@
                         required>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="qa">Quality Assurance (QA)</label>
+                    <label for="qa">QBL</label>
                     <input type="number" class="form-control" id="qa" name="qa" value="{{ $domain->qa }}"
                         required>
                 </div>

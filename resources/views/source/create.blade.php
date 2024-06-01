@@ -49,52 +49,15 @@
             </div>
         @endif
         
-        <form action="{{route('domain.store')}}" method="post" enctype="multipart/form-data">
+        <form action="{{route('source.store')}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="form-group row">
-                <label for="namaMahasiswa" class="col-sm-2 col-form-label">Nama Domain</label>
+                <label for="namaMahasiswa" class="col-sm-2 col-form-label">Nama Sumber</label>
                 <div class="col-sm-10">
-                    <input type="text" name="namadomain" class="form-control" id="namaMahasiswa" placeholder="">
+                    <input type="text" name="sumber" class="form-control" id="namaMahasiswa" placeholder="">
                 </div>
             </div>
-            <div class="form-group row">
-                <label for="nimMahasiswa" class="col-sm-2 col-form-label">DA</label>
-                <div class="col-sm-10">
-                    <input type="text" name="da" class="form-control" id="nimMahasiswa" placeholder="NIM Mahasiswa">
-                </div>
-            </div>
-           
-            <div class="form-group row">
-                <label for="judulskripsiMahasiswa" class="col-sm-2 col-form-label">PA</label>
-                    <div class="col-sm-10">
-                    <input type="text" name="pa" class="form-control" id="nimMahasiswa" placeholder="">
-                    </div>
-            </div>
-            <div class="form-group row">
-                <label for="pembimbing1" class="col-sm-2 col-form-label">QA</label>
-                <div class="col-sm-10">
-                    <input type="text" name="qt" class="form-control" id="pembimbing1" placeholder="">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="pembimbing2" class="col-sm-2 col-form-label">OS</label>
-                <div class="col-sm-10">
-                    <input type="text" name="os" class="form-control" id="pembimbing2" placeholder="">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="pembimbing2" class="col-sm-2 col-form-label">SS</label>
-                <div class="col-sm-10">
-                    <input type="text" name="ss" class="form-control" id="pembimbing2" placeholder="">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="pembimbing2" class="col-sm-2 col-form-label">Tanggal Bidding</label>
-                <div class="col-sm-10">
-                    <input data-date-format="dd/mm/yyyy" id="datepicker">
-
-                </div>
-            </div>
+            
             <!--<div class="form-group row">
                 <label for="gambarMahasiswa" class="col-sm-2 col-form-label">Pilih gambar</label>
                 <div class="col-sm-10">
@@ -105,7 +68,7 @@
 
              <hr>
                 <div class="form-group">
-                    <a href="{{route('domain.index')}}" class="btn btn-success">Kembali</a>
+                    <a href="{{route('source.index')}}" class="btn btn-success">Kembali</a>
                     <button type="submit" class="btn btn-primary">Tambah</button>
                 </div>
         </form>

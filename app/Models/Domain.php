@@ -14,7 +14,8 @@ class Domain extends Model
         'os',
         'ss',
         'bidding_time',
-        'user_id'
+        'user_id',
+        'source_id'
     ];
 
     protected $casts = [
@@ -24,5 +25,10 @@ class Domain extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function source()
+    {
+        return $this->belongsTo(Source::class);
     }
 }

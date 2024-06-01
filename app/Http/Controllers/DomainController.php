@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Domain;
+use App\Models\Source;
 use Illuminate\Http\Request;
 
 class DomainController extends Controller
@@ -15,7 +16,7 @@ class DomainController extends Controller
      */
     public function index(Request $request)
     {
-        $domains = $request->user()->domains()->orderBy('bidding_time', 'desc')->paginate(10);
+        $domains = $request->user()->domains()->join('sources', 'sources.id', '=', 'domains.source_id')->orderBy('bidding_time', 'desc')->paginate(10);
         return view('domain.index', compact('domains'));
     }
 
@@ -26,7 +27,8 @@ class DomainController extends Controller
      */
     public function create()
     {
-        return view('domain.create');
+        $sources = Source::all();
+        return view('domain.create', compact('sources'));
     }
 
     /**

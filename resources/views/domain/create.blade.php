@@ -23,6 +23,15 @@
 
             <div class="form-row">
                 <div class="col-md-6 mb-3">
+                    <label for="name">Sumber</label>
+                    <select name="source_id" id="source" class="form-control">
+                        <option value=""></option>
+                        @foreach($sources as $item)
+                            <option value="{{ $item->id }}">{{ $item->sumber }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
                     <label for="name">Domain Name</label>
                     <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}"
                         required>
@@ -32,27 +41,25 @@
                     <input type="number" class="form-control" id="da" name="da" value="{{ old('da') }}"
                         required>
                 </div>
-            </div>
-
-            <div class="form-row">
                 <div class="col-md-6 mb-3">
                     <label for="pa">Page Authority (PA)</label>
                     <input type="number" class="form-control" id="pa" name="pa" value="{{ old('pa') }}"
                         required>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="qa">Quality Assurance (QA)</label>
+                    <label for="qa">QBL</label>
                     <input type="number" class="form-control" id="qa" name="qa" value="{{ old('qa') }}"
                         required>
                 </div>
-            </div>
-
-            <div class="form-row">
                 <div class="col-md-6 mb-3">
                     <label for="os">Off-Site SEO (OS)</label>
                     <input type="number" class="form-control" id="os" name="os" value="{{ old('os') }}"
                         required>
                 </div>
+            </div>
+
+            <div class="form-row">
+                
                 <div class="col-md-6 mb-3">
                     <label for="ss">Spam Score (SS)</label>
                     <input type="number" class="form-control" id="ss" name="ss" value="{{ old('ss') }}"

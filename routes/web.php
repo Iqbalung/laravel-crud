@@ -21,3 +21,4 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::resource('domain', 'DomainController')->middleware('auth');
+Route::resource('source', 'SourceController')->middleware('auth');

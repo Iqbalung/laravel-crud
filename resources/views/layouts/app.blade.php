@@ -35,9 +35,12 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
-                <ul class="navbar-nav mr-auto">
+               
+                    <ul class="nav navbar-nav" >
 
-                </ul>
+                        <li><a  href="{{ route('source.index') }}" style="margin-left:10px;">Sumber</a></li>
+                        <li><a  href="{{ route('domain.index') }}" style="margin-left:10px;">Domain Bidding</a></li>
+                    </ul>
 
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">

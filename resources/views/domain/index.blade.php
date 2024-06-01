@@ -9,6 +9,7 @@
             <div class="col-md-2 text-end">
                 <a class="btn btn-success" href="{{ route('domain.create') }}">Tambah Domain</a>
             </div>
+            
         </div>
 
         @if ($message = Session::get('success'))
@@ -21,10 +22,11 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Namecheap</th>
+                        <th>Sumber</th>
+                        <th>Domain</th>
                         <th>DA</th>
                         <th>PA</th>
-                        <th>QA</th>
+                        <th>QBL</th>
                         <th>OS</th>
                         <th>SS</th>
                         <th>Bidding (End Time)</th>
@@ -34,6 +36,7 @@
                 <tbody>
                     @foreach ($domains as $domain)
                         <tr>
+                            <td>{{ $domain->sumber }}</td>
                             <td>{{ $domain->name }}</td>
                             <td>{{ $domain->da }}</td>
                             <td>{{ $domain->pa }}</td>
