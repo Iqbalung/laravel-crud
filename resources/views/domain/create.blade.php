@@ -27,7 +27,7 @@
                     <select name="source_id" id="source" class="form-control">
                         <option value=""></option>
                         @foreach($sources as $item)
-                            <option value="{{ $item->id }}">{{ $item->sumber }}</option>
+                            <option value="{{ $item->source_id }}">{{ $item->sumber }}</option>
                         @endforeach
                     </select>
                 </div>

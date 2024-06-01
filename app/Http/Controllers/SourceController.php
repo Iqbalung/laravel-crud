@@ -14,7 +14,7 @@ class SourceController extends Controller
      */
     public function index()
     {
-        $mahasiswas = Source::orderBy('id', 'asc')->paginate(5);
+        $mahasiswas = Source::orderBy('source_id', 'asc')->paginate(5);
         return view('source.index', compact('mahasiswas'))
                 ->with('i', (request()->input('page', 1) - 1) * 5);
     }

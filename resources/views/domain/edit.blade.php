@@ -24,6 +24,17 @@
 
             <div class="form-row">
                 <div class="col-md-6 mb-3">
+                    <label for="name">Sumber</label>
+                    <select name="source_id" id="source" class="form-control">
+                        <option value=""></option>
+                        @foreach($sources as $item)
+                            <option 
+                            <?php if($item->source_id == $domain->source_id) echo 'selected' ?>
+                            value="{{ $item->source_id }}">{{ $item->sumber }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
                     <label for="name">Domain Name</label>
                     <input type="text" class="form-control" id="name" name="name" value="{{ $domain->name }}"
                         required>
@@ -33,9 +44,6 @@
                     <input type="number" class="form-control" id="da" name="da" value="{{ $domain->da }}"
                         required>
                 </div>
-            </div>
-
-            <div class="form-row">
                 <div class="col-md-6 mb-3">
                     <label for="pa">Page Authority (PA)</label>
                     <input type="number" class="form-control" id="pa" name="pa" value="{{ $domain->pa }}"
@@ -46,14 +54,19 @@
                     <input type="number" class="form-control" id="qa" name="qa" value="{{ $domain->qa }}"
                         required>
                 </div>
-            </div>
-
-            <div class="form-row">
                 <div class="col-md-6 mb-3">
                     <label for="os">Off-Site SEO (OS)</label>
                     <input type="number" class="form-control" id="os" name="os" value="{{ $domain->os }}"
                         required>
                 </div>
+            </div>
+
+            <div class="form-row">
+                
+            </div>
+
+            <div class="form-row">
+               
                 <div class="col-md-6 mb-3">
                     <label for="ss">Spam Score (SS)</label>
                     <input type="number" class="form-control" id="ss" name="ss" value="{{ $domain->ss }}"
