@@ -29,6 +29,6 @@ class Domain extends Model
 
     public function source()
     {
-        return $this->belongsTo(Source::class);
+        return $this->belongsTo(Source::class, 'source_id', 'source_id');
     }
 }

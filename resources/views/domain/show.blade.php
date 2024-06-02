@@ -14,6 +14,7 @@
                     <div class="card-header">Domain Information</div>
                     <div class="card-body">
                         <p><strong>Name:</strong> {{ $domain->name }}</p>
+                        <p><strong>Source:</strong> {{ $domain->source->sumber ?? '-' }}</p>
                         <p><strong>Domain Authority (DA):</strong> {{ $domain->da }}</p>
                         <p><strong>Page Authority (PA):</strong> {{ $domain->pa }}</p>
                         <p><strong>Quality Assurance (QA):</strong> {{ $domain->qa }}</p>
