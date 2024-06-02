@@ -18,9 +18,32 @@ class DomainController extends Controller
     {
         $domains = $request->user()->domains()
             ->with('source')
-            ->orderBy('bidding_time', 'desc')->paginate(10);
+            ->orderBy('bidding_time', 'desc');
 
-        return view('domain.index', compact('domains'));
+        $source = null;
+        $sources = Source::all();
+
+        if ($request->has('source_id')) {
+            if (empty($request->source_id)) {
+                return redirect()->route('domain.index');
+            }
+
+            if ($request->source_id == 'all') {
+                $domains = $domains->paginate(10);
+                return view('domain.index', compact('domains', 'sources', 'source'));
+            }
+
+            if ($request->source_id == 'none') {
+                $domains->whereNull('source_id');
+            } else {
+                $source = Source::findOrFail($request->source_id);
+                $domains->where('source_id', $request->source_id);
+            }
+        }
+
+        $domains = $domains->paginate(10);
+
+        return view('domain.index', compact('domains', 'sources', 'source'));
     }
 
     /**
@@ -48,6 +71,7 @@ class DomainController extends Controller
                 new \App\Rules\FQDN(),
                 'unique:domains,name'
             ],
+            'source_id' => 'required|exists:sources,source_id',
             'da' => 'required',
             'pa' => 'required',
             'qa' => 'required',
@@ -58,7 +82,13 @@ class DomainController extends Controller
 
         $request->user()->domains()->create($request->all());
 
-        return redirect()->route('domain.index')
+        $params = [];
+
+        if ($request->has('source_id')) {
+            $params['source_id'] = $request->source_id;
+        }
+
+        return redirect()->route('domain.index', $params)
             ->with('success', 'Data berhasil ditambahkan');
     }
 
@@ -100,6 +130,7 @@ class DomainController extends Controller
                 new \App\Rules\FQDN(),
                 'unique:domains,name,' . $domain->id
             ],
+            'source_id' => 'required|exists:sources,source_id',
             'da' => 'required',
             'pa' => 'required',
             'qa' => 'required',

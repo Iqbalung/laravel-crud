@@ -3,11 +3,25 @@
 @section('content')
     <div class="container">
         <div class="row mb-3">
-            <div class="col-md-10">
-                <h3>Domain Bidding</h3>
+            <div class="col-md-8">
+                @if ($source)
+                    <h3>Domain Bidding (Sumber: {{ $source->sumber }})</h3>
+                @else
+                    <h3>Domain Bidding</h3>
+                @endif
             </div>
-            <div class="col-md-2 text-end">
-                <a class="btn btn-success" href="{{ route('domain.create') }}">Tambah Domain</a>
+            <div class="col-md-4" align="right">
+                @if ($source)
+                    <a class="btn btn-primary" href="{{ route('domain.index') }}">Reset Filter</a>
+                @endif
+
+                @if ($source)
+                    <a class="btn btn-success" href="{{ route('domain.create', ['source_id' => $source->source_id]) }}">
+                        Tambah Domain
+                    </a>
+                @else
+                    <a class="btn btn-success" href="{{ route('domain.create') }}">Tambah Domain</a>
+                @endif
             </div>
 
         </div>
@@ -17,6 +31,33 @@
                 <p>{{ $message }}</p>
             </div>
         @endif
+
+        <form action="{{ route('domain.index') }}" method="GET">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group mb-3">
+                        <label for="sumber">Sumber</label>
+                        <select class="form-control" name="source_id" id="sumber" required>
+                            <option value="">Pilih Sumber</option>
+                            <option value="all" @if (request('source_id') == 'all') selected @endif>Semua Sumber</option>
+                            <option value="none" @if (request('source_id') == 'none') selected @endif>Belum Ada Sumber
+                            </option>
+                            @foreach ($sources as $row)
+                                <option value="{{ $row->source_id }}" @if ($row->source_id == request('source_id')) selected @endif>
+                                    {{ $row->sumber }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group mb-3">
+                        <label for="filter">&nbsp;</label>
+                        <input id="filter" type="submit" class="form-control btn-primary" value="Filter">
+                    </div>
+                </div>
+            </div>
+        </form>
 
         <div class="table-responsive">
             <table class="table table-striped">
@@ -36,7 +77,7 @@
                 <tbody>
                     @foreach ($domains as $domain)
                         <tr>
-                            <td>{{ $domain->sumber }}</td>
+                            <td>{{ $domain->source->sumber ?? '-' }}</td>
                             <td>{{ $domain->name }}</td>
                             <td>{{ $domain->da }}</td>
                             <td>{{ $domain->pa }}</td>

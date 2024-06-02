@@ -25,9 +25,14 @@
                 <div class="col-md-6 mb-3">
                     <label for="name">Sumber</label>
                     <select name="source_id" id="source" class="form-control">
-                        <option value=""></option>
-                        @foreach($sources as $item)
-                            <option value="{{ $item->source_id }}">{{ $item->sumber }}</option>
+                        <option value="">Pilih Sumber</option>
+                        @php
+                            $oldSource = old('source_id', request('source_id'));
+                        @endphp
+                        @foreach ($sources as $source)
+                            <option value="{{ $source->source_id }}" @if ($source->source_id == $oldSource) selected @endif>
+                                {{ $source->sumber }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -59,7 +64,7 @@
             </div>
 
             <div class="form-row">
-                
+
                 <div class="col-md-6 mb-3">
                     <label for="ss">Spam Score (SS)</label>
                     <input type="number" class="form-control" id="ss" name="ss" value="{{ old('ss') }}"
