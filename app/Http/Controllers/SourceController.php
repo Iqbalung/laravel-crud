@@ -40,7 +40,7 @@ class SourceController extends Controller
             'sumber' => 'required|string|min:1|max:255|unique:sources,sumber',
         ]);
 
-        Source::create($request->all());
+        $request->user()->sources()->create($request->all());
 
         return redirect()->route('source.index')
                          ->with('success', 'Data berhasil ditambahkan');
@@ -88,7 +88,7 @@ class SourceController extends Controller
             'sumber' => 'required|string|min:1|max:255|unique:sources,sumber,' . $source->source_id . ',source_id',
         ]);
 
-        $source->update($request->all());
+        $request->user()->sources()->find($source->source_id)->update($request->all());
 
         return redirect()->route('source.index')
             ->with('success', 'Data berhasil diubah');
