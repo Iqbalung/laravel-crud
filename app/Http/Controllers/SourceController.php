@@ -14,9 +14,8 @@ class SourceController extends Controller
      */
     public function index()
     {
-        $mahasiswas = Source::orderBy('source_id', 'asc')->paginate(5);
-        return view('source.index', compact('mahasiswas'))
-                ->with('i', (request()->input('page', 1) - 1) * 5);
+        $sources = Source::orderBy('source_id', 'asc')->paginate(10);
+        return view('source.index', compact('sources'));
     }
 
     /**
@@ -37,13 +36,9 @@ class SourceController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
-            'sumber' => 'required',
-            //'gambarMahasiswa' => 'required|image|mimes:jpg,png,jpeg'
+            'sumber' => 'required|string|min:1|max:255|unique:sources,sumber',
         ]);
-
-       
 
         Source::create($request->all());
 
@@ -54,70 +49,62 @@ class SourceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Source  $source
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, Source $source)
     {
-        $mahasiswa = Source::find($id);
-        return view('source.detail', compact('mahasiswa'));
+        $latest = $request->user()->domains()
+            ->where('source_id', $source->source_id)
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
+
+        return view('source.show', compact('source', 'latest'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Source  $source
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Source $source)
     {
-        $mahasiswa = Source::find($id);
-        return view('source.edit', compact('mahasiswa'));
+        return view('source.edit', compact('source'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Source  $source
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Source $source)
     {
         $request->validate([
-            'namadomain' => 'required',
-            'da' => 'required',
-            'pa' => 'required',
-            'qt' => 'required',
-            'os' => 'required',
-            'ss' => 'required',
-            //'gambarMahasiswa' => 'required|image|mimes:jpg,png,jpeg'
+            'sumber' => 'required|string|min:1|max:255|unique:sources,sumber,' . $source->source_id . ',source_id',
         ]);
-        $mahasiswa = Source::find($id);
-        $mahasiswa->namadomain = $request->get('namadomain');
-        $mahasiswa->da = $request->get('da');
-        $mahasiswa->pa = $request->get('pa');
-        $mahasiswa->qt = $request->get('qt');
-        $mahasiswa->os = $request->get('os');
-        $mahasiswa->ss = $request->get('ss');
-        $mahasiswa->biddate = date('Y-m-d', strtotime($request->get('biddate')));
 
-        $mahasiswa->save();
+        $source->update($request->all());
+
         return redirect()->route('source.index')
-                         ->with('success', 'Data berhasil diupdate');
+            ->with('success', 'Data berhasil diubah');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Source  $source
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Source $source)
     {
-        $mahasiswa = Source::find($id);
-        $mahasiswa->delete();
+        $source->delete();
+
         return redirect()->route('source.index')
-                         ->with('success', 'Data Alumni berhasil dihapus');
+            ->with('success', 'Data berhasil dihapus');
     }
 }

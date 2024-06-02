@@ -13,7 +13,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::create([
+        $user = User::updateOrCreate([
+            'email' => 'user@example.com',
+        ], [
             'email' => 'user@example.com',
             'name' => 'John Doe',
             'password' => Hash::make('password')
@@ -121,6 +123,41 @@ class DatabaseSeeder extends Seeder
             ]
         ];
 
-        $user->domains()->createMany($domains);
+        $sources = [
+            'Amazon AWS',
+            'Linode',
+            'Digital Ocean',
+            'Hostinger',
+            'GoDaddy',
+            'Namecheap',
+            'Bluehost',
+            'SiteGround',
+            'HostGator',
+            'CloudFlare',
+            'Niagahoster',
+            'Dewaweb',
+            'Jagoan Hosting',
+        ];
+
+        collect($sources)->each(function ($source) use ($user) {
+            \App\Models\Source::updateOrCreate([
+                'sumber' => $source,
+                'user_id' => $user->id
+            ], [
+                'sumber' => $source,
+                'user_id' => $user->id
+            ]);
+        });
+
+
+        collect($domains)->each(function ($domain) use ($user) {
+            $source = \App\Models\Source::inRandomOrder()->first();
+            \App\Models\Domain::updateOrCreate([
+                'name' => $domain['name'],
+                'user_id' => $user->id
+            ], array_merge($domain, [
+                'source_id' => $source->source_id
+            ]));
+        });
     }
 }

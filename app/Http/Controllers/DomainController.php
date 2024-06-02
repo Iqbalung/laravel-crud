@@ -16,7 +16,10 @@ class DomainController extends Controller
      */
     public function index(Request $request)
     {
-        $domains = $request->user()->domains()->join('sources', 'sources.source_id', '=', 'domains.source_id')->orderBy('bidding_time', 'desc')->paginate(10);
+        $domains = $request->user()->domains()
+            ->with('source')
+            ->orderBy('bidding_time', 'desc')->paginate(10);
+
         return view('domain.index', compact('domains'));
     }
 

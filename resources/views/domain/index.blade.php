@@ -9,7 +9,7 @@
             <div class="col-md-2 text-end">
                 <a class="btn btn-success" href="{{ route('domain.create') }}">Tambah Domain</a>
             </div>
-            
+
         </div>
 
         @if ($message = Session::get('success'))
@@ -30,7 +30,7 @@
                         <th>OS</th>
                         <th>SS</th>
                         <th>Bidding (End Time)</th>
-                        <th>Action</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
