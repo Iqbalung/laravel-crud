@@ -32,4 +32,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Domain::class);
     }
+
+    public function sources()
+    {
+        return $this->hasMany(Source::class);
+    }
 }

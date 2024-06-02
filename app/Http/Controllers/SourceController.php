@@ -40,7 +40,7 @@ class SourceController extends Controller
             'sumber' => 'required|string|min:1|max:255|unique:sources,sumber',
         ]);
 
-        Source::create($request->all());
+        $request->user()->sources()->create($request->all());
 
         return redirect()->route('source.index')
                          ->with('success', 'Data berhasil ditambahkan');
@@ -88,7 +88,14 @@ class SourceController extends Controller
             'sumber' => 'required|string|min:1|max:255|unique:sources,sumber,' . $source->source_id . ',source_id',
         ]);
 
-        $source->update($request->all());
+        $data = $request->all();
+
+        // Set user_id if not exists
+        if (!isset($data['user_id'])) {
+            $data['user_id'] = $request->user()->id;
+        }
+
+        $source->update($data);
 
         return redirect()->route('source.index')
             ->with('success', 'Data berhasil diubah');
